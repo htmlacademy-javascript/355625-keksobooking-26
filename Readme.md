@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Max Pavlenko](https://up.htmlacademy.ru/javascript/26/user/355625).
-* Наставник: `Неизвестно`.
+* Наставник: [Игорь Шкапертин](https://htmlacademy.ru/profile/id322895).
 
 ---
 
