@@ -16,7 +16,7 @@ function getRandomIntInclusive(minInt, maxInt) {
   }
   return 'Err: NO below ZERO argument is allowed'; // Ругаемся на отрицательное число.
 }
-console.log(getRandomIntInclusive(0, 14));
+getRandomIntInclusive(0, 14);
 
 
 /*
@@ -33,8 +33,8 @@ function getRandomFloatInclusive(minFloat, maxFloat, roundNum) {
 
   if (minFloat >= 0 && maxFloat >= 0) { // Проверяем на положительные числа.
     let floatRes = Math.random() * (maxFloat - minFloat + 1) + minFloat; //Максимум и минимум включаются и заносится в переменную.
-    return +floatRes.toFixed(roundNum)
+    return +floatRes.toFixed(roundNum);
   }
   return 'Err: NO below ZERO argument is allowed'; // Ругаемся на отрицательное число.
 }
-console.log(getRandomFloatInclusive(9, 5, 3));
+getRandomFloatInclusive(9, 5, 3);
