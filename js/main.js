@@ -10,9 +10,7 @@
 function getRandomIntInclusive(minInt, maxInt) {
 
   if (minInt >= 0 && maxInt >= 0) { // Проверяем на положительные числа.
-    minInt = Math.ceil(minInt);// Округляет аргумент до ближайшего большего целого.
-    maxInt = Math.floor(maxInt);// округление вниз. Округляет аргумент до ближайшего меньшего целого.
-    return Math.floor(Math.random() * (maxInt - minInt + 1)) + minInt; //Максимум и минимум включаются.
+    return Math.floor(Math.random() * (Math.floor(maxInt) - Math.ceil(minInt) + 1)) + Math.ceil(minInt); //Максимум и минимум включаются.
   }
   return 'Err: NO below ZERO argument is allowed'; // Ругаемся на отрицательное число.
 }
@@ -32,9 +30,9 @@ getRandomIntInclusive(0, 14);
 function getRandomFloatInclusive(minFloat, maxFloat, roundNum) {
 
   if (minFloat >= 0 && maxFloat >= 0) { // Проверяем на положительные числа.
-    let floatRes = Math.random() * (maxFloat - minFloat + 1) + minFloat; //Максимум и минимум включаются и заносится в переменную.
+    const floatRes = Math.random() * (maxFloat - minFloat + 1) + minFloat; //Максимум и минимум включаются и заносится в переменную.
     return +floatRes.toFixed(roundNum);
   }
-  return 'Err: NO below ZERO argument is allowed'; // Ругаемся на отрицательное число.
+  return 'Err: NO below ZERO argument is allowed !'; // Ругаемся на отрицательное число.
 }
-getRandomFloatInclusive(9, 5, 3);
+getRandomFloatInclusive(6, 5, 8);
