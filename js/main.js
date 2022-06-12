@@ -7,7 +7,7 @@
 */
 
 // partly borrowed from developer.mozilla.org
-function getRandomIntInclusive(minInt, maxInt) {
+const getRandomIntInclusive =(minInt, maxInt)=> {
 
   if (minInt >= 0 && maxInt >= 0) { // Проверяем на положительные числа.
     return Math.floor(Math.random() * (Math.floor(maxInt) - Math.ceil(minInt) + 1)) + Math.ceil(minInt); //Максимум и минимум включаются.
@@ -27,7 +27,7 @@ getRandomIntInclusive(0, 14);
  */
 
 // partly borrowed from developer.mozilla.org
-function getRandomFloatInclusive(minFloat, maxFloat, roundNum) {
+const getRandomFloatInclusive =(minFloat, maxFloat, roundNum)=> {
 
   if (minFloat >= 0 && maxFloat >= 0) { // Проверяем на положительные числа.
     const floatRes = Math.random() * (maxFloat - minFloat + 1) + minFloat; //Максимум и минимум включаются и заносится в переменную.
@@ -35,4 +35,4 @@ function getRandomFloatInclusive(minFloat, maxFloat, roundNum) {
   }
   return 'Err: NO below ZERO argument is allowed !'; // Ругаемся на отрицательное число.
 }
-getRandomFloatInclusive(6, 5, 8);
+getRandomFloatInclusive(8, 5, 5);
