@@ -13,7 +13,7 @@ const getRandomIntInclusive =(minInt, maxInt)=> {
   return 'Err: NO below ZERO argument is allowed'; // Ругаемся на отрицательное число.
 };
 */
-const getRandomPositiveInteger =(a, b)=> {
+const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
   const result = Math.random() * (upper - lower + 1) + lower;
@@ -37,7 +37,7 @@ const getRandomFloatInclusive =(minFloat, maxFloat, roundNum)=> {
   return 'Err: NO below ZERO argument is allowed !'; // Ругаемся на отрицательное число.
 };
  */
-const getRandomPositiveFloat =(a, b, digits = 1)=> {
+const getRandomPositiveFloat = (a, b, digits = 1) => {
   const lower = Math.min(Math.abs(a), Math.abs(b));
   const upper = Math.max(Math.abs(a), Math.abs(b));
   const result = Math.random() * (upper - lower) + lower;
@@ -52,6 +52,18 @@ const zeroAdd = (num) => {
     return Array(+numZeroes).join("0") + num;
   }
   return num;
+};
+
+// вспомогательная функция для преобразования в массив для удобства работы.
+const convertToArray = (...arguments) => {
+  return Object.assign([], arguments);
+};
+
+// вспомогательная функция для перебора значений массива.
+const getRandomArrayKey = (arr) => {
+  const length = arr.length-1;
+  const randomArrIndex = getRandomPositiveInteger(0,length);
+ return arr[randomArrIndex];
 };
 
 /*
@@ -78,23 +90,46 @@ location, объект — местоположение в виде геогра
 lat, число с плавающей точкой — широта, случайное значение от 35.65000 до 35.70000.
 lng, число с плавающей точкой — долгота, случайное значение от 139.70000 до 139.80000.
  */
-const author = {
-  'avatar': `img/avatars/user${zeroAdd(getRandomPositiveInteger(1,10))}.png`
-};
-const offer = {
-  'title': 'Объявление по недвижимости.',
-  'address': '',
-  'price': getRandomPositiveInteger(1000,1000000),
-  'type': ['palace','flat','house','bungalow','hotel'],
-  'rooms': getRandomPositiveInteger(1,100),
-  'guests': getRandomPositiveInteger(1,500),
-  'checkin': ['12:00','13:00','14:00'],
-  'checkout': ['12:00','13:00','14:00'],
-  'features': ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
-  'description': `Дом премиум-класса "Поклонная 9" расположен в исторически значимом и одном из самых престижных районов столицы  Дорогомилово, перпендикулярно Кутузовскому проспекту. Слева от дома "Поклонная 9" находится мемориальный комплекс Парк Победы и знаменитая Триумфальная арка. Добраться до Кремлевской набережной от жилого комплекса можно всего за 10-15 минут, а выезд на ТТК расположен в 900 м.`,
-  'photos': ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg']
-};
 const location = {
   'lat': getRandomPositiveFloat(35.65000, 35.70000, 2),
   'lng': getRandomPositiveFloat(139.70000, 139.80000, 2),
 };
+
+const type = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const checkin = ['12:00', '13:00', '14:00'];
+const checkout  = ['12:00', '13:00', '14:00'];
+const features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const photos = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
+
+const author = {
+  'avatar': `img/avatars/user${zeroAdd(getRandomPositiveInteger(1, 10))}.png`
+};
+const offer = {
+  'title': 'Объявление по недвижимости.',
+  'address': Object.values(location).join(', '),
+  'price': getRandomPositiveInteger(1000, 1000000),
+  'type': getRandomArrayKey(type),
+  'rooms': getRandomPositiveInteger(1, 100),
+  'guests': getRandomPositiveInteger(1, 500),
+  'checkin': getRandomArrayKey(checkin),
+  'checkout': getRandomArrayKey(checkout),
+  'features': getRandomArrayKey(features),
+  'description': `Дом премиум-класса "Поклонная 9" расположен в исторически значимом и одном из самых престижных районов столицы  Дорогомилово, перпендикулярно Кутузовскому проспекту. Слева от дома "Поклонная 9" находится мемориальный комплекс Парк Победы и знаменитая Триумфальная арка. Добраться до Кремлевской набережной от жилого комплекса можно всего за 10-15 минут, а выезд на ТТК расположен в 900 м.`,
+  'photos': getRandomArrayKey(photos),
+};
+
+
+const parameters = convertToArray(offer, author, location);
+
+const createArrayWithObjects = (objQuant, arrs) => {
+  const totalArr = [];
+  for (let i = 1; i < objQuant + 1; i++) {
+    const valIndex = arrs.map((arr) => {
+        return arr;
+    });
+    totalArr.push(valIndex);
+  }
+  return totalArr;
+};
+
+createArrayWithObjects(10, parameters);
