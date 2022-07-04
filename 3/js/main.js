@@ -19,7 +19,6 @@ const getRandomPositiveInteger = (a, b) => {
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
-
 /*
 Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
 Будет использоваться для генерации временных географических координат в следующем задании.
@@ -43,8 +42,8 @@ const getRandomPositiveFloat = (a, b, digits = 1) => {
   const result = Math.random() * (upper - lower) + lower;
   return +result.toFixed(digits);
 };
-
-// функция для добавления "0" если число от 1 до 10.
+/* функция для добавления "0" если число от 1 до 10.
+Мой вариант:
 const zeroAdd = (num) => {
   const places = 2;
   if (num > 0 && num < 10) {
@@ -53,83 +52,62 @@ const zeroAdd = (num) => {
   }
   return num;
 };
-
+ */
+const addZero = (num) => num > 9 ? num.toString() : '0' + num.toString();
 // вспомогательная функция для преобразования в массив для удобства работы.
 const convertToArray = (...arguments) => {
   return Object.assign([], arguments);
 };
-
 // вспомогательная функция для перебора значений массива.
 const getRandomArrayKey = (arr) => {
-  const length = arr.length-1;
-  const randomArrIndex = getRandomPositiveInteger(0,length);
- return arr[randomArrIndex];
+  const length = arr.length - 1;
+  return arr[getRandomPositiveInteger(0, length)];
 };
-
-/*
-В файле main.js на основе написанных в прошлом задании вспомогательных функций напишите необходимые функции для создания массива из 10 сгенерированных JS-объектов. Каждый объект массива — описание похожего объявления неподалёку.
-Структура каждого объекта должна быть следующей:
-
-author, объект — описывает автора. Содержит одно поле:
-avatar, строка — адрес изображения вида img/avatars/user{{xx}}.png, где {{xx}} — это число от 1 до 10. Перед однозначными числами ставится 0. Например, 01, 02...10. Адреса изображений не повторяются.
-
-offer, объект — содержит информацию об объявлении. Состоит из полей:
-title, строка — заголовок предложения. Придумайте самостоятельно.
-address, строка — адрес предложения. Для простоты пусть пока составляется из географических координат по маске {{location.lat}}, {{location.lng}}.
-price, число — стоимость. Случайное целое положительное число.
-type, строка — одно из пяти фиксированных значений: palace, flat, house, bungalow или hotel.
-rooms, число — количество комнат. Случайное целое положительное число.
-guests, число — количество гостей, которое можно разместить. Случайное целое положительное число.
-checkin, строка — одно из трёх фиксированных значений: 12:00, 13:00 или 14:00.
-checkout, строка — одно из трёх фиксированных значений: 12:00, 13:00 или 14:00.
-features, массив строк — массив случайной длины из значений: wifi, dishwasher, parking, washer, elevator, conditioner. Значения не должны повторяться.
-description, строка — описание помещения. Придумайте самостоятельно.
-photos, массив строк — массив случайной длины из значений: https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg, https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg, https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg.
-
-location, объект — местоположение в виде географических координат. Состоит из двух полей:
-lat, число с плавающей точкой — широта, случайное значение от 35.65000 до 35.70000.
-lng, число с плавающей точкой — долгота, случайное значение от 139.70000 до 139.80000.
- */
-const location = {
-  'lat': getRandomPositiveFloat(35.65000, 35.70000, 2),
-  'lng': getRandomPositiveFloat(139.70000, 139.80000, 2),
+// задаем объекты через функции для удобства использывания при итерации через метод map
+const createLocation = () => {
+  return {
+    'lat': getRandomPositiveFloat(35.65000, 35.70000, 2),
+    'lng': getRandomPositiveFloat(139.70000, 139.80000, 2),
+  }
+};
+const createAuthor = () => {
+  return {
+    'avatar': `img/avatars/user${addZero(getRandomPositiveInteger(1, 10))}.png`
+  }
+};
+const createOffer = () => {
+  return {
+    'title': 'Объявление по недвижимости.',
+    'address': Object.values(createLocation()).join(', '),
+    'price': getRandomPositiveInteger(1000, 1000000),
+    'type': getRandomArrayKey(type),
+    'rooms': getRandomPositiveInteger(1, 100),
+    'guests': getRandomPositiveInteger(1, 500),
+    'checkin': getRandomArrayKey(checkin),
+    'checkout': getRandomArrayKey(checkout),
+    'features': getRandomArrayKey(features),
+    'description': `Дом премиум-класса "Поклонная 9" расположен в исторически значимом и одном из самых престижных районов столицы  Дорогомилово, перпендикулярно Кутузовскому проспекту. Слева от дома "Поклонная 9" находится мемориальный комплекс Парк Победы и знаменитая Триумфальная арка. Добраться до Кремлевской набережной от жилого комплекса можно всего за 10-15 минут, а выезд на ТТК расположен в 900 м.`,
+    'photos': getRandomArrayKey(photos)
+  }
 };
 
 const type = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const checkin = ['12:00', '13:00', '14:00'];
-const checkout  = ['12:00', '13:00', '14:00'];
+const checkout = ['12:00', '13:00', '14:00'];
 const features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const photos = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
 
-const author = {
-  'avatar': `img/avatars/user${zeroAdd(getRandomPositiveInteger(1, 10))}.png`
-};
-const offer = {
-  'title': 'Объявление по недвижимости.',
-  'address': Object.values(location).join(', '),
-  'price': getRandomPositiveInteger(1000, 1000000),
-  'type': getRandomArrayKey(type),
-  'rooms': getRandomPositiveInteger(1, 100),
-  'guests': getRandomPositiveInteger(1, 500),
-  'checkin': getRandomArrayKey(checkin),
-  'checkout': getRandomArrayKey(checkout),
-  'features': getRandomArrayKey(features),
-  'description': `Дом премиум-класса "Поклонная 9" расположен в исторически значимом и одном из самых престижных районов столицы  Дорогомилово, перпендикулярно Кутузовскому проспекту. Слева от дома "Поклонная 9" находится мемориальный комплекс Парк Победы и знаменитая Триумфальная арка. Добраться до Кремлевской набережной от жилого комплекса можно всего за 10-15 минут, а выезд на ТТК расположен в 900 м.`,
-  'photos': getRandomArrayKey(photos),
+// собираем наши объекты
+const formMapping = () => {
+  return {offer: createOffer(), author: createAuthor(), location: createLocation()};
 };
 
-
-const parameters = convertToArray(offer, author, location);
-
-const createArrayWithObjects = (objQuant, arrs) => {
-  const totalArr = [];
-  for (let i = 1; i < objQuant + 1; i++) {
-    const valIndex = arrs.map((arr) => {
-        return arr;
-    });
-    totalArr.push(valIndex);
-  }
-  return totalArr;
+// формируем массив объектов
+const createOffersArray = (num) => {
+  return [...Array(num)].map(() => {
+    return formMapping();
+  });
 };
 
-createArrayWithObjects(10, parameters);
+createOffersArray(10);
+
