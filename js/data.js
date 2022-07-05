@@ -10,13 +10,13 @@ const createLocation = () => {
   return {
     'lat': getRandomPositiveFloat(35.65000, 35.70000, 2),
     'lng': getRandomPositiveFloat(139.70000, 139.80000, 2),
-  }
+  };
 };
 
 const createAuthor = () => {
   return {
     'avatar': `img/avatars/user${addZero(getRandomPositiveInteger(1, 10))}.png`
-  }
+  };
 };
 
 const createOffer = () => {
@@ -32,7 +32,7 @@ const createOffer = () => {
     'features': getRandomArrayKey(features),
     'description': `Дом премиум-класса "Поклонная 9" расположен в исторически значимом и одном из самых престижных районов столицы  Дорогомилово, перпендикулярно Кутузовскому проспекту. Слева от дома "Поклонная 9" находится мемориальный комплекс Парк Победы и знаменитая Триумфальная арка. Добраться до Кремлевской набережной от жилого комплекса можно всего за 10-15 минут, а выезд на ТТК расположен в 900 м.`,
     'photos': getRandomArrayKey(photos)
-  }
+  };
 };
 
 // собираем наши объекты
