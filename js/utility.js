@@ -39,4 +39,29 @@ const getRandomArrayKey = (arr) => {
   return arr[getRandomPositiveInteger(0, length)];
 };
 
-export {getRandomPositiveFloat, addZero, getRandomPositiveInteger, getRandomArrayKey};
+// функция для перевода с Англ. на Руск. тип жилья
+let typePlaceChoose = (type, obj) => {
+  switch (type) {
+    case 'palace':
+      obj.textContent = 'Дворец';
+      break;
+    case 'flat':
+      obj.textContent = 'Квартира';
+      break;
+    case 'house':
+      obj.textContent = 'Дом';
+      break;
+    case 'bungalow':
+      obj.textContent = 'Бунгало';
+      break;
+    case 'hotel':
+      obj.textContent = 'Отель';
+      break;
+    default:
+      obj.textContent;
+      break;
+  }
+  return obj.textContent;
+};
+
+export {getRandomPositiveFloat, addZero, getRandomPositiveInteger, getRandomArrayKey, typePlaceChoose};
