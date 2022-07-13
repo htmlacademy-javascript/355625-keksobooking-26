@@ -1,9 +1,11 @@
 import {createOffersArray} from './data.js';
-import {assembleAllDataForTemplate, cardTemplate, cardFeaturesChildren} from './templates.js';
+import {renderCards} from './templates.js';
 
-let objArr = createOffersArray(10);
-let templateFull = assembleAllDataForTemplate(objArr, cardTemplate, cardFeaturesChildren);
 
+const mapCanvas = document.querySelector('#map-canvas');
+const objArr = createOffersArray(10);
+const templateFull = renderCards(objArr[0]);
+mapCanvas.append(templateFull);
 
 
 
