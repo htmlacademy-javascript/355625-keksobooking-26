@@ -39,4 +39,19 @@ const getRandomArrayKey = (arr) => {
   return arr[getRandomPositiveInteger(0, length)];
 };
 
-export {getRandomPositiveFloat, addZero, getRandomPositiveInteger, getRandomArrayKey};
+// функция для перевода с Англ. на Руск. тип жилья
+const typeClass = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель'
+};
+
+export {
+  getRandomPositiveFloat,
+  addZero,
+  getRandomPositiveInteger,
+  getRandomArrayKey,
+  typeClass
+};
