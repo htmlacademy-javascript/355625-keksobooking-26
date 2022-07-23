@@ -1,7 +1,10 @@
 import {typeClass} from './utility.js';
 
+const mapCanvas = document.querySelector('#map-canvas');
 const template = document.querySelector('#card').content;
 const cardTemplate = template.querySelector('.popup');
+
+
 const renderCards = (goods) => {
   const card = cardTemplate.cloneNode(true);
   const photo = card.querySelector('.popup__photos');
@@ -40,6 +43,7 @@ const renderCards = (goods) => {
   } else {
     card.removeChild(photo);
   }
+
   return card;
 };
 

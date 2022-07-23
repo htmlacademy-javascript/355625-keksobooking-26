@@ -58,4 +58,4 @@ const validateForm = () => {
 };
 
 
-export {switchForm, validateForm};
+export {switchForm, validateForm, sendForm};
