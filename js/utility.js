@@ -28,6 +28,11 @@ const getRandomPositiveFloat = (a, b, digits = 1) => {
   return +result.toFixed(digits);
 };
 
+// вспомогательная функция для перебора и адаптации параметров ширины и долготы на карте
+const modifyLngLatParam = (a, b, digits) => {
+  return [a.toFixed(digits), b.toFixed(digits)];
+};
+
 
 // функция для добавления "0" если число от 1 до 10.
 const addZero = (num) => num > 9 ? num.toString() : '0' + num.toString();
@@ -53,5 +58,6 @@ export {
   addZero,
   getRandomPositiveInteger,
   getRandomArrayKey,
-  typeClass
+  typeClass,
+  modifyLngLatParam
 };
