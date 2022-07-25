@@ -4,7 +4,6 @@ import {createOffersArray} from './data.js';
 import {renderCards} from './templates.js';
 
 
-
 let allFormsDisable = 'ad-form--disabled';
 const resetButton = sendForm.querySelector('.ad-form__reset');
 const addressField = sendForm.querySelector('[name="address"]');
@@ -71,20 +70,22 @@ const icon = L.icon({
 });
 
 
-objArr.forEach((item) => {
-  const marker = L.marker(
-    {
-      lat: item.location.lat,
-      lng: item.location.lng,
-    },
-    {
-      icon,
-    });
+const renderOffersFromServer = (data) => {
+  data.forEach((item) => {
+    const marker = L.marker(
+      {
+        lat: item.location.lat,
+        lng: item.location.lng,
+      },
+      {
+        icon,
+      });
 
-  marker
-    .addTo(map)
-    .bindPopup(renderCards(item));
-});
+    marker
+      .addTo(map)
+      .bindPopup(renderCards(item));
+  });
+};
 
 
-export {allFormsDisable};
+export {allFormsDisable, renderOffersFromServer};

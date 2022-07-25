@@ -44,7 +44,7 @@ const getRandomArrayKey = (arr) => {
   return arr[getRandomPositiveInteger(0, length)];
 };
 
-// функция для перевода с Англ. на Руск. тип жилья
+// объект для перевода с Англ. на Руск. тип жилья
 const typeClass = {
   palace: 'Дворец',
   flat: 'Квартира',
@@ -52,6 +52,14 @@ const typeClass = {
   bungalow: 'Бунгало',
   hotel: 'Отель'
 };
+
+
+const exitModelMouse = (className) => {
+  closePopupButton.addEventListener('click', function () {
+    className.classList.remove();
+  });
+};
+
 
 export {
   getRandomPositiveFloat,
