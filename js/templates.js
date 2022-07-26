@@ -1,7 +1,8 @@
 import {typeClass} from './utility.js';
 
-const mapCanvas = document.querySelector('#map-canvas');
 const template = document.querySelector('#card').content;
+const templSuccessMessage = document.querySelector('#success').content;
+const templErrorMessage = document.querySelector('#error').content;
 const cardTemplate = template.querySelector('.popup');
 
 
@@ -18,7 +19,7 @@ const renderCards = (goods) => {
   card.querySelector('.popup__type').textContent = typeClass[goods.offer.type];
   card.querySelector('.popup__text--capacity').textContent = `${goods.offer.rooms} комнаты для ${goods.offer.guests} гостей`;
   card.querySelector('.popup__text--time').textContent = `Заезд после ${goods.offer.checkin}, выезд до ${goods.offer.checkout}`;
-  if (goods.offer.features.length) {
+  if (goods.offer.features) {
     goods.offer.features.forEach((item) => {
         const createElem = document.createElement('li');
         createElem.classList.add('popup__feature');
@@ -30,7 +31,7 @@ const renderCards = (goods) => {
     card.removeChild(popup);
   }
   card.querySelector('.popup__description').textContent = goods.offer.description;
-  if (goods.offer.photos.length) {
+  if (goods.offer.photos) {
     goods.offer.photos.forEach((item) => {
       const createElem = document.createElement('img');
       createElem.classList.add('popup__photo');
@@ -43,8 +44,23 @@ const renderCards = (goods) => {
   } else {
     card.removeChild(photo);
   }
-
   return card;
 };
 
-export {renderCards};
+const renderSuccessMessage = () => {
+  const successCard = templSuccessMessage.cloneNode(true);
+  return document.body.appendChild(successCard);
+};
+
+const renderErrorMessage = () => {
+  const errorCard = templErrorMessage.cloneNode(true);
+  const errContainer = document.querySelector('.error');
+  const closeButton = errorCard.querySelector('.error__button');
+  closeButton.addEventListener('click', function () {
+    errorCard.removeChild(errContainer);
+  });
+  return document.body.appendChild(errorCard);
+};
+
+
+export {renderCards, renderSuccessMessage, renderErrorMessage};

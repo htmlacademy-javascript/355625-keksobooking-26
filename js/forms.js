@@ -1,3 +1,6 @@
+import {renderErrorMessage, renderSuccessMessage} from './templates.js';
+import {sendData} from './api.js';
+
 const switchForm = (classAdd, toggleName, index) => {
   const allForms = document.forms;
   if (classAdd) {
@@ -14,7 +17,6 @@ const switchForm = (classAdd, toggleName, index) => {
 };
 
 // Валидация формы
-
 const sendForm = document.querySelector('.ad-form');
 const pristine = new Pristine(sendForm, {
   classTo: 'ad-form__element',
@@ -30,14 +32,12 @@ const guestsOption = {
   100: 'не для гостей',
 };
 
-
 const validateNicknameTitle = (value) => {
   return value.length >= 30 && value.length <= 100;
 };
 const validateNicknamePrice = (value) => {
   return parseInt(value) <= 100000 && parseInt(value) > 0;
 };
-
 const validateGuestOption = () => {
   return roomsField.value >= capacityField.value;
 };
@@ -50,12 +50,20 @@ pristine.addValidator(sendForm.querySelector('#title'), validateNicknameTitle, '
 pristine.addValidator(sendForm.querySelector('#price'), validateNicknamePrice, 'должно быть от 1 до 100 000 рублей');
 pristine.addValidator(capacityField, validateGuestOption, getDeliveryErrorMessage);
 
-const validateForm = () => {
+
+const setValidateAndFormSubmit = (onSuccess) => {
   sendForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    pristine.validate();
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(
+        () => renderSuccessMessage(),
+        () => renderErrorMessage(),
+        new FormData(evt.target),
+      );
+    }
   });
 };
 
 
-export {switchForm, validateForm, sendForm};
+export {switchForm, setValidateAndFormSubmit, sendForm};
