@@ -54,10 +54,23 @@ const typeClass = {
 };
 
 
-const exitModelMouse = (className) => {
-  closePopupButton.addEventListener('click', function () {
-    className.classList.remove();
-  });
+// вспомогательные функции для обработки событий на модальных окнах
+const isEscapeKey = (evt) => {
+  return evt.key === 'Escape';
+};
+
+
+const onPopupEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeUserModal();
+  }
+};
+
+const closeUserModal = (target) => {
+  target.remove();
+  document.removeEventListener('keydown', onPopupEscKeydown);
+  document.removeEventListener('click', onPopupEscKeydown);
 };
 
 
@@ -67,5 +80,7 @@ export {
   getRandomPositiveInteger,
   getRandomArrayKey,
   typeClass,
-  modifyLngLatParam
+  modifyLngLatParam,
+  isEscapeKey,
+  closeUserModal
 };

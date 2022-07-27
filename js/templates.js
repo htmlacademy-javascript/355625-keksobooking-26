@@ -1,4 +1,4 @@
-import {typeClass} from './utility.js';
+import {typeClass, isEscapeKey, closeUserModal} from './utility.js';
 
 const template = document.querySelector('#card').content;
 const templSuccessMessage = document.querySelector('#success').content;
@@ -48,18 +48,43 @@ const renderCards = (goods) => {
 };
 
 const renderSuccessMessage = () => {
+  const ALERT_SHOW_TIME = 5000;
   const successCard = templSuccessMessage.cloneNode(true);
-  return document.body.appendChild(successCard);
+  const succContainer = successCard.querySelector('.success');
+  document.body.appendChild(successCard);
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      closeUserModal(succContainer);
+    }
+  });
+  setTimeout(() => {
+    succContainer.remove();
+  }, ALERT_SHOW_TIME);
+  document.addEventListener('click', function () {
+    succContainer.remove();
+  });
 };
 
 const renderErrorMessage = () => {
+  const ALERT_SHOW_TIME = 5000;
   const errorCard = templErrorMessage.cloneNode(true);
-  const errContainer = document.querySelector('.error');
+  const errContainer = errorCard.querySelector('.error');
   const closeButton = errorCard.querySelector('.error__button');
-  closeButton.addEventListener('click', function () {
-    errorCard.removeChild(errContainer);
+  document.body.appendChild(errorCard);
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      closeUserModal(errContainer);
+    }
   });
-  return document.body.appendChild(errorCard);
+  setTimeout(() => {
+    errContainer.remove();
+  }, ALERT_SHOW_TIME);
+  closeButton.addEventListener('click', function () {
+    errContainer.remove();
+  });
+  document.addEventListener('click', function () {
+    errContainer.remove();
+  });
 };
 
 
