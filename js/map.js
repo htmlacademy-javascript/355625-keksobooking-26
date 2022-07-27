@@ -28,7 +28,7 @@ const objArr = createOffersArray(10);
 const map = L.map('map-canvas')
   .on('load', () => {
     allFormsDisable = '';
-    addressField.removeAttribute('disabled');
+    addressField.setAttribute('disabled','');
     addressField.value = modifyLngLatParam(pinMarker.getLatLng().lat, pinMarker.getLatLng().lng, 5);
   })
   .setView({
