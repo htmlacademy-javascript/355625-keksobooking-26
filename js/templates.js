@@ -60,7 +60,7 @@ const renderErrorMessage = () => {
     errorCard.removeChild(errContainer);
   });
   return document.body.appendChild(errorCard);
-};
+};//
 
 
 export {renderCards, renderSuccessMessage, renderErrorMessage};

@@ -22,7 +22,6 @@ const pinMarker = L.marker(
     icon: mainPinIcon,
   },
 );
-const objArr = createOffersArray(10);
 
 
 const map = L.map('map-canvas')
