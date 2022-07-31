@@ -25,12 +25,42 @@ const pristine = new Pristine(sendForm, {
 
 const roomsField = sendForm.querySelector('[name="rooms"]');
 const capacityField = sendForm.querySelector('[name="capacity"]');
+const timeScheduleInCheck = sendForm.querySelector('#timein');
+const timeScheduleOutCheck = sendForm.querySelector('#timeout');
+const housingPrice = sendForm.querySelector('[name="price"]');
+const housingType = sendForm.querySelectorAll('#type');
 const guestsOption = {
   1: 'это только для 1 комнаты',
   2: 'это только для 2 комнат',
   3: 'это только для 3 комнат',
   100: 'не для гостей',
 };
+const priceOption = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000,
+};
+
+timeScheduleInCheck.addEventListener('change', () => {
+  timeScheduleOutCheck.value = timeScheduleInCheck.value;
+});
+timeScheduleOutCheck.addEventListener('change', () => {
+  timeScheduleInCheck.value = timeScheduleOutCheck.value;
+});
+sendForm.querySelector('#type').addEventListener('change', () => {
+  housingType.forEach((item) => {
+    housingPrice.placeholder = priceOption[item.value];
+    housingPrice.setAttribute('min', priceOption[item.value]);
+  });
+});
+roomsField.addEventListener('change', () => {
+  sendForm.querySelectorAll('[name="rooms"]').forEach((item) => {
+    console.log(item.value);
+    capacityField[0] = guestsOption[100];
+  });
+});
 
 const validateNicknameTitle = (value) => {
   return value.length >= 30 && value.length <= 100;
@@ -41,14 +71,18 @@ const validateNicknamePrice = (value) => {
 const validateGuestOption = () => {
   return roomsField.value >= capacityField.value;
 };
-
-function getDeliveryErrorMessage() {
+const validatePriceMinValue = () => {
+  return housingPrice.value >= housingPrice.min;
+};
+const getDeliveryErrorMessage = () => {
   return `${guestsOption[capacityField.value]}`;
-}
+};
+
 
 pristine.addValidator(sendForm.querySelector('#title'), validateNicknameTitle, 'должно быть от 30 до 100 символов');
 pristine.addValidator(sendForm.querySelector('#price'), validateNicknamePrice, 'должно быть от 1 до 100 000 рублей');
 pristine.addValidator(capacityField, validateGuestOption, getDeliveryErrorMessage);
+pristine.addValidator(housingPrice, validatePriceMinValue, 'Сумма должна быть не меньше минимальной ценой за ночь');
 
 
 const setValidateAndFormSubmit = (onSuccess) => {
@@ -57,9 +91,9 @@ const setValidateAndFormSubmit = (onSuccess) => {
     const isValid = pristine.validate();
     if (isValid) {
       sendData(
-        () => renderSuccessMessage(),
-        () => renderErrorMessage(),
-        new FormData(evt.target),
+        ()=>renderSuccessMessage(),
+        ()=>renderErrorMessage(),
+         new FormData(evt.target),
       );
     }
   });

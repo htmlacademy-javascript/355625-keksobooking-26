@@ -1,11 +1,13 @@
 import {switchForm, setValidateAndFormSubmit} from './forms.js';
-import {allFormsDisable, renderOffersFromServer} from './map.js';
+import {allFormsDisable, renderOffers} from './map.js';
 import {renderSuccessMessage} from './templates.js';
 import {getData} from './api.js';
 
 
-switchForm(allFormsDisable, 'disabled');
+switchForm(allFormsDisable, 'readonly');
 
-getData(renderOffersFromServer);
+getData((offers) => {
+  renderOffers(offers);
+});
 
 setValidateAndFormSubmit(renderSuccessMessage);
