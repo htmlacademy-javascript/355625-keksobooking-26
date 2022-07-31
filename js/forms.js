@@ -29,6 +29,7 @@ const timeScheduleInCheck = sendForm.querySelector('#timein');
 const timeScheduleOutCheck = sendForm.querySelector('#timeout');
 const housingPrice = sendForm.querySelector('[name="price"]');
 const housingType = sendForm.querySelectorAll('#type');
+const sliderElement = document.querySelector('.ad-form__slider');
 const guestsOption = {
   1: 'это только для 1 комнаты',
   2: 'это только для 2 комнат',
@@ -62,6 +63,7 @@ roomsField.addEventListener('change', () => {
   });
 });
 
+
 const validateNicknameTitle = (value) => {
   return value.length >= 30 && value.length <= 100;
 };
@@ -77,6 +79,38 @@ const validatePriceMinValue = () => {
 const getDeliveryErrorMessage = () => {
   return `${guestsOption[capacityField.value]}`;
 };
+
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 100000,
+  },
+  start: 0,
+  step: 1,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+
+sliderElement.noUiSlider.on('update', () => {
+  housingPrice.value = sliderElement.noUiSlider.get();
+});
+
+housingPrice.addEventListener('change', () => {
+    sliderElement.noUiSlider.set(housingPrice.value);
+});
+
+
 
 
 pristine.addValidator(sendForm.querySelector('#title'), validateNicknameTitle, 'должно быть от 30 до 100 символов');

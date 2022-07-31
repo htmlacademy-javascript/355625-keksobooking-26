@@ -83,15 +83,15 @@ const checkFilterFields = (item) => {
   if (item.offer.type === housingTypeField.value) {
     isHousinTypeValue = true;
   }
-  if (item.offer.price > 10000 && item.offer.price < 50000 && priceTypeField.value === 'middle') {
+ if (item.offer.price > 10000 && item.offer.price < 50000 && priceTypeField.value === 'middle') {
     isPriceTypeValue = true;
   }
-  if (item.offer.price < 10000 && priceTypeField.value === 'low') {
-    isPriceTypeValue = true;
-  }
-  if (item.offer.price > 50000 && priceTypeField.value === 'high') {
-    isPriceTypeValue = true;
-  }
+    if (item.offer.price < 10000 && priceTypeField.value === 'low') {
+     isPriceTypeValue = true;
+   }
+   if (item.offer.price > 50000 && priceTypeField.value === 'high') {
+     isPriceTypeValue = true;
+   }
   if (parseInt(item.offer.rooms) === parseInt(roomsTypeField.value)) {
     isRoomTypeValue = true;
   }
@@ -100,7 +100,7 @@ const checkFilterFields = (item) => {
   }
 
 
-  return isHousinTypeValue && isPriceTypeValue && isRoomTypeValue && isGuestTypeValue;
+  return isHousinTypeValue && isPriceTypeValue && isRoomTypeValue  && isGuestTypeValue;
 };
 
 const filteredObj = (data) => {
