@@ -1,5 +1,4 @@
 import {modifyLngLatParam} from './utility.js';
-import {dataOffers} from './api.js';
 import {renderCards} from './templates.js';
 
 
@@ -12,7 +11,7 @@ const priceTypeField = mapForm.querySelector('#housing-price');
 const roomsTypeField = mapForm.querySelector('#housing-rooms');
 const guestsTypeField = mapForm.querySelector('#housing-guests');
 const featuresTypeField = mapForm.querySelector('#housing-features');
-const checkedFeatures = mapForm.querySelectorAll('input[name="features"]:checked');
+
 
 // map initialization
 const mainPinIcon = L.icon({
@@ -53,7 +52,7 @@ const icon = L.icon({
   iconAnchor: [20, 40],
 });
 
-let allMarkers = L.layerGroup();
+const allMarkers = L.layerGroup().addTo(map);
 
 resetButton.addEventListener('click', () => {
   map.removeLayer(allMarkers);
@@ -75,40 +74,103 @@ pinMarker.on('moveend', (evt) => {
 
 const checkFilterFields = (item) => {
 
-  let isHousinTypeValue = false;
-  let isPriceTypeValue = false;
-  let isRoomTypeValue = false;
-  let isGuestTypeValue = false;
+  let isHousinTypeValue = true;
+  let isPriceTypeValue = true;
+  let isRoomTypeValue = true;
+  let isGuestTypeValue = true;
+  let isFeatureTypeValue = true;
 
-  if (item.offer.type === housingTypeField.value) {
+  /*if (item.offer.type === housingTypeField.value) {
     isHousinTypeValue = true;
   }
- if (item.offer.price > 10000 && item.offer.price < 50000 && priceTypeField.value === 'middle') {
+  if (item.offer.price > 10000 && item.offer.price < 50000 && priceTypeField.value === 'middle') {
     isPriceTypeValue = true;
   }
-    if (item.offer.price < 10000 && priceTypeField.value === 'low') {
-     isPriceTypeValue = true;
-   }
-   if (item.offer.price > 50000 && priceTypeField.value === 'high') {
-     isPriceTypeValue = true;
-   }
+  if (item.offer.price < 10000 && priceTypeField.value === 'low') {
+    isPriceTypeValue = true;
+  }
+  if (item.offer.price > 50000 && priceTypeField.value === 'high') {
+    isPriceTypeValue = true;
+  }
   if (parseInt(item.offer.rooms) === parseInt(roomsTypeField.value)) {
     isRoomTypeValue = true;
   }
   if (parseInt(item.offer.guests) === parseInt(guestsTypeField.value)) {
     isGuestTypeValue = true;
+  }*/
+
+  if (item.offer.type !== housingTypeField.value && housingTypeField.value !== 'any') {
+    isHousinTypeValue = false;
+  }
+  if (item.offer.price < 10000 && item.offer.price > 50000 && priceTypeField.value === 'middle') {
+    isPriceTypeValue = false;
+  }
+  if (item.offer.price > 10000 && priceTypeField.value === 'low') {
+    isPriceTypeValue = false;
+  }
+  if (item.offer.price < 50000 && priceTypeField.value === 'high') {
+    isPriceTypeValue = false;
+  }
+  if (parseInt(item.offer.rooms, 10) === parseInt(roomsTypeField.value, 10)) {
+    isRoomTypeValue = false;
+  }
+  if (parseInt(item.offer.guests, 10) === parseInt(guestsTypeField.value, 10)) {
+    isGuestTypeValue = false;
+  }
+  if (parseInt(item.offer.guests, 10) === parseInt(guestsTypeField.value, 10)) {
+    isGuestTypeValue = false;
+  }
+
+/*  const checkedFeatures = document.querySelectorAll('input[name="features"]:checked');*/
+  const checkedFeatures = document.querySelectorAll('.map__checkbox:checked');
+console.log(checkedFeatures);
+  if (checkedFeatures.length !== 0) {
+
+    checkedFeatures.forEach((elem) => {
+      console.log(item);
+      if (item.offer.features) {
+        if (!item.offer.features.includes(elem.value)) {
+          isFeatureTypeValue = false;
+        }
+      } else {
+        isFeatureTypeValue = false;
+      }
+
+    });
   }
 
 
-  return isHousinTypeValue && isPriceTypeValue && isRoomTypeValue  && isGuestTypeValue;
+  return isHousinTypeValue && isPriceTypeValue && isRoomTypeValue && isGuestTypeValue && isFeatureTypeValue;
 };
 
 const filteredObj = (data) => {
-  return data.filter((item) => checkFilterFields(item));
+  const arr = data.filter((item) => checkFilterFields(item));
+  return arr.slice(0, 10);
 };
 
 
+const createPins = (data) => {
+  filteredObj(data).forEach((item) => {
+    const marker = L.marker(
+      {
+        lat: item.location.lat,
+        lng: item.location.lng,
+      },
+      {
+        icon,
+      });
+
+    marker
+      .addTo(allMarkers)
+      .bindPopup(renderCards(item));
+  });
+};
+
 const renderOffers = (data) => {
+  createPins(data);
+};
+
+/*const renderOffers = (data) => {
 
   mapForm.addEventListener('change', () => {
 
@@ -129,9 +191,9 @@ const renderOffers = (data) => {
       allMarkers.addLayer(marker).addTo(map);
     });
   });
-};
+};*/
 
-export {allFormsDisable, renderOffers};
+export {allFormsDisable, renderOffers, mapForm, createPins, allMarkers};
 
 
 
